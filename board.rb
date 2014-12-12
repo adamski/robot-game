@@ -15,8 +15,8 @@ class Board
   def num_diamonds
     count = 0
     @squares.each do |row|
-      row.each do |col|
-        count += 1 if @squares[ row ][ col ] == :diamonds
+      row.each do |square|
+        count += 1 if square == :diamond
       end
     end
   end
