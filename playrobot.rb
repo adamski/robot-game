@@ -8,6 +8,7 @@ end
 
 f1 = get_function( 'one' );
 puts f1.join( ',' );
+puts f1.length
 
 f2 = get_function( 'two' );
 puts f2.join( ',' );
@@ -20,4 +21,4 @@ while rob.status == :playing
   puts rob.move(command)
 end
 
-puts 'Game end: '+status
+puts "Game end: #{rob.status}"
