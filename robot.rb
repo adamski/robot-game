@@ -5,18 +5,53 @@ class Robot
   #@@directions = { up: {y: -1}, right: {x: 1}, down: {y: 1}, left: {x: -1} }
   @@directions = [ :up, :right, :down, :left ]
   @@max_moves = 10
+  @@max_function_commands = 4
 
-  def initialize
+  def initialize( f1, f2 )
     @board = Board.new
     @x = @y = 0
     @direction = :down
-    @f1 = Array.new
-    @f2 = Array.new
+    #@f1 = Array.new
+    #@f2 = Array.new
     @moves = 0
     @status = :playing
   end
 
-  def is_block(x, y)
+  def report
+    "x:#{@x} y:#{@y} moves:#{@moves} direction:#{@direction} diamonds remaining:#{@board.num_diamonds}"
+  end
+
+  #command shortcuts
+  def fwd
+    forward
+    report
+  end
+
+  def rc
+    rotate
+    report
+  end
+
+  def ra
+    rotate_anti
+    report
+  end
+
+  def invoke_function(function)
+    if function && function.class == Array
+      count = 0
+      function.each do |command|
+        if obj.respond_to?(command) && %w[fwd rc ra].include?(command)
+          obj.send(command)
+          count += 1
+        end
+        break if count >= @@max_function_commands
+      end
+    end
+
+  end
+
+  def is_block( x, y )
     @board.squares[ y ][ x ] == :block
   end
 
@@ -34,7 +69,7 @@ class Robot
     end
   end
 
-  def move
+  def forward
     success = false
     case @direction
       when :up
@@ -69,6 +104,7 @@ class Robot
   def rotate(clock=1)
     i = @@directions.index(@direction) + clock
     @direction = @@directions.rotate(i).first
+    @moves += 1
   end
 
   def rotate_anti
