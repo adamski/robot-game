@@ -3,7 +3,6 @@ require './board.rb'
 class Robot
   attr_reader :status
 
-  #@@directions = { up: {y: -1}, right: {x: 1}, down: {y: 1}, left: {x: -1} }
   @@directions = [ :up, :right, :down, :left ]
   @@max_moves = 10
   @@max_function_commands = 4
@@ -53,17 +52,11 @@ class Robot
   end
 
   def invoke_function(command_list)
-    puts command_list.length
-    puts command_list.join(',');
     if command_list && command_list.class == Array
-      puts '... do it'
-      puts command_list.length
       count = 0
       command_list.each do |command|
-        puts "try to: #{command}"
         if self.respond_to?(command) && %w[fwd rc ra].include?(command)
           self.send(command)
-          puts "done: #{command}"
           count += 1
         end
         break if count >= @@max_function_commands
@@ -117,7 +110,6 @@ class Robot
         raise "Unknown direction #{@direction}"
     end
     check_for_diamond
-    #check_status
     success
   end
 

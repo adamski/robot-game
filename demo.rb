@@ -1,6 +1,5 @@
 require './robot.rb'
 
-
 rob = Robot.new( %w[fwd fwd rc fwd], %w[rc rc fwd rc] )
 
 puts rob.move('fwd')

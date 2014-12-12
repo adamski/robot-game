@@ -3,15 +3,14 @@ require './robot.rb'
 def get_function( num )
   puts "Enter function #{num}: (fwd, rc, ra)"
   command_string = gets.chomp
-  command_string.split(/\,?\s+/)
+  command_string.split(/\W+/)
 end
 
-f1 = get_function( 'one' );
-puts f1.join( ',' );
-puts f1.length
+f1 = get_function( 'one' )
+puts f1.join( ' ' )
 
-f2 = get_function( 'two' );
-puts f2.join( ',' );
+f2 = get_function( 'two' )
+puts f2.join( ' ' )
 
 rob = Robot.new( f1, f2 )
 
