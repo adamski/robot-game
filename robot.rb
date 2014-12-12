@@ -14,7 +14,7 @@ class Robot
     @direction = :down
     @f1 = f1
     @f2 = f2
-    @moves = 0
+    @moves = @@max_moves
     @status = :playing
   end
 
@@ -25,7 +25,7 @@ class Robot
   def move(command)
     if self.respond_to?(command) && %w[fwd rc ra f1 f2].include?(command)
       self.send(command)
-      @moves += 1
+      @moves -= 1
       check_status
       report
     end
@@ -79,7 +79,7 @@ class Robot
   def check_status
     if @board.num_diamonds == 0
       @status = :won
-    elsif @moves >= @@max_moves
+    elsif @moves <= 0
       @status = :lost
     end
   end

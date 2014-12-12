@@ -6,8 +6,6 @@ def get_function( num )
   command_string.split(/\,?\s+/)
 end
 
-status = :playing
-
 f1 = get_function( 'one' );
 puts f1.join( ',' );
 
@@ -16,11 +14,10 @@ puts f2.join( ',' );
 
 rob = Robot.new( f1, f2 )
 
-while status == :playing
+while rob.status == :playing
   puts "Enter move: (fwd, rc, ra, f1, f2)"
   command = gets.chomp
   puts rob.move(command)
-  status = rob.status
 end
 
 puts 'Game end: '+status

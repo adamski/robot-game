@@ -19,5 +19,6 @@ class Board
         count += 1 if square == :diamond
       end
     end
+    count
   end
 end
