@@ -11,8 +11,8 @@ class Robot
     @board = Board.new
     @x = @y = 0
     @direction = :down
-    #@f1 = Array.new
-    #@f2 = Array.new
+    @f1 = f1
+    @f2 = f2
     @moves = 0
     @status = :playing
   end
@@ -21,28 +21,41 @@ class Robot
     "x:#{@x} y:#{@y} moves:#{@moves} direction:#{@direction} diamonds remaining:#{@board.num_diamonds}"
   end
 
+  def move(command)
+    if self.respond_to?(command) && %w[fwd rc ra f1 f2].include?(command)
+      self.send(command)
+      @moves += 1
+      check_status
+    end
+  end
+
   #command shortcuts
   def fwd
     forward
-    report
   end
 
   def rc
     rotate
-    report
   end
 
   def ra
     rotate_anti
-    report
+  end
+
+  def f1
+    invoke_function(@f1)
+  end
+
+  def f2
+    invoke_function(@f2)
   end
 
   def invoke_function(function)
     if function && function.class == Array
       count = 0
       function.each do |command|
-        if obj.respond_to?(command) && %w[fwd rc ra].include?(command)
-          obj.send(command)
+        if self.respond_to?(command) && %w[fwd rc ra].include?(command)
+          self.send(command)
           count += 1
         end
         break if count >= @@max_function_commands
@@ -95,16 +108,14 @@ class Robot
       else
         raise "Unknown direction #{@direction}"
     end
-    @moves += 1
     check_for_diamond
-    check_status
+    #check_status
     success
   end
 
   def rotate(clock=1)
     i = @@directions.index(@direction) + clock
     @direction = @@directions.rotate(i).first
-    @moves += 1
   end
 
   def rotate_anti
