@@ -1,7 +1,7 @@
 require './robot.rb'
 
-def get_function( num )
-  puts "Enter function #{num}: (fwd, rc, ra)"
+def get_function( label )
+  puts "Enter function #{label}: (fwd, rc, ra)"
   command_string = gets.chomp
   command_string.split(/\W+/)
 end
